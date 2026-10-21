@@ -1,0 +1,38 @@
+from collections import defaultdict
+
+"""
+1. create new dictionary with each word sorted
+2. find anagram by checking which word in the new sorted dictionary matches the sorted random_word
+"""
+
+# create new dictionary with sorted words
+def create_new_dict():
+    new_dict = defaultdict(set)
+    with open('/Users/mau/Downloads/words.txt', 'r') as file:
+        unsorted_words = [line.strip().lower() for line in file if line.strip()]
+        for word in unsorted_words:
+            sorted_word = "".join(sorted(word)) 
+            new_dict[sorted_word].add(word) 
+    return new_dict
+
+# find the anagram(s)
+def find_anagram(random_word, new_dict):
+    sorted_word = "".join(sorted(random_word.strip().lower()))
+    if not sorted_word:
+        return "Input is empty."
+    return new_dict.get(sorted_word, "Anagram not found.")
+
+if __name__ == "__main__":
+    random_word = input("Enter a random word: ")
+    new_dict = create_new_dict()
+    anagrams = find_anagram(random_word, new_dict)
+    print(anagrams)
+
+"""
+-----TEST CASES-----
+multiple anagrams? -> prints all anagrams
+no anagrams? -> prints "Anagram not found."
+long random word? -> yes
+short random word? -> yes
+no input? -> prints "Input is empty"
+"""
